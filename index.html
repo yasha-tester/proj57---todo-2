@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>todo list 2</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="main-wrapper">
+            <div class="upperUi">
+
+
+                <input type="text" name="addItem" id="addItem">
+                <input type="submit" value="add" id="addBtn" onclick="addNewItem()">
+                <input type="submit" value="delete checked" id="delChecked"></input>
+                <input type="checkbox" id="checkAll">check all</input>
+
+
+            </div>
+
+            <ol id="itemsList">
+            </ol>
+
+            <div><span>all:</span><span id="totalNum">0</span></div>
+            <div><span>active:</span><span id="undoneNum">10</span></div>
+            <div><span>completed:</span><span id="checkedNum">0</span></div>
+
+            <div id="pages"><a id="page1">1</a></div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>

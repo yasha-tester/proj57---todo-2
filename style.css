@@ -1,0 +1,67 @@
+body {
+    font-family: sans-serif;
+    font-size: 18px;
+
+}
+
+.main-wrapper {
+    display: block;
+    margin: 3em auto;
+    width: clamp(5em, 80%, 60em);
+
+}
+
+input {
+    padding: .2rem 1rem;
+    line-height: 1.5rem;
+}
+
+.upperUi {
+    text-align: center;
+}
+
+ol {
+
+    background-color: antiquewhite;
+    cursor: pointer;
+}
+
+ol>li {
+    background-color: khaki;
+    padding: 1rem;
+}
+
+ol>li:hover {
+    background-color: royalblue;
+
+}
+
+li {
+    position: relative;
+    width: 100%;
+}
+
+li>a {
+
+    position: absolute;
+    right: 0;
+    padding-right: 0.5rem;
+}
+
+#pages {
+    text-align: center;
+
+}
+
+span {
+    cursor: pointer;
+}
+
+#pages>a {
+    cursor: pointer;
+    background-color: burlywood;
+    padding: .5rem;
+    border: 2px solid black;
+    margin-inline: 1px;
+    padding: 6px 10px;
+}
