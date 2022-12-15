@@ -41,8 +41,8 @@ function addNewItem() {
 
   //closebtn
   let closeBtn = document.createElement("a");
-  let thisArrItem = (closeBtn.className = // className
-    itemCounter.at(-1) + " item" + `${itemCounter.length - 1}`); // className
+  thisArrItem = closeBtn.className = // className
+    itemCounter.at(-1) + " item" + `${itemCounter.length - 1}`; // className
   closeBtn.innerHTML = "&#10006";
 
   closeBtn.addEventListener("click", () => {
@@ -57,6 +57,7 @@ function addNewItem() {
       unfinishedNum++;
       unfinished.innerHTML = unfinishedNum;
     }
+    //       page counter decreasing
     if (itemCounter.length >= 9 && itemCounter.length % 9 === 0) {
       let neededCounter = document.getElementById(`page${pageCounter}`);
       neededCounter.remove();
@@ -116,20 +117,21 @@ checkAll.addEventListener("change", () => {
 let delChecked = document.getElementById("delChecked");
 delChecked.addEventListener("click", () => {
   let length = itemsList.children.length;
-  for (let i = 0; i < length; i++) {
+  for (let i = length - 1; i >= 0; i--) {
     if (itemsList.children[i].children[0].checked) {
       itemsList.children[i].remove();
       totalNum--;
       total.innerHTML = totalNum;
       checkedNum--;
       checkedElement.innerHTML = checkedNum;
+      // page counter decreasing
 
-      /*       if (itemCounter.length >= 9 && itemCounter.length % 9 === 0) {
+      if (itemCounter.length >= 9 && itemCounter.length % 9 === 0) {
         let neededCounter = document.getElementById(`page${pageCounter}`);
         neededCounter.remove();
         pageCounter--;
       }
-      itemCounter.shift(`${thisArrItem + 1}`); */
+      itemCounter.shift(`${thisArrItem + 1}`);
     }
   }
 });
@@ -137,8 +139,23 @@ delChecked.addEventListener("click", () => {
 /*
 / // needed:
 
-/ // switching pages;
 
-/ // fix delChecked 1/2 error
-/ // fix delChecked page counter not decreasing
+/ // delChecked page counter lag on 5 pages
+
+
+
+/ // switching pages;
+:
+currentPage = 0;
+arr0 = [];
+add items in arr{$currentPage} when item in list added,
+if (length % 8 === 0) currentPage++;
+arr{currentPage} = [];
+
+on delete
+:
+arr{currentPage}.pop();
+if(length % 8 === 0) currentPage--;
+arr{currentPage}.remove();
+
 */

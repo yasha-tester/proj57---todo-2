@@ -7,7 +7,7 @@ body {
 .main-wrapper {
     display: block;
     margin: 3em auto;
-    width: clamp(5em, 80%, 60em);
+    width: clamp(5em, 80%, 40em);
 
 }
 
