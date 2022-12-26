@@ -1,5 +1,6 @@
 let addBtn = document.getElementById("addBtn");
-let itemsList = document.querySelector("#itemsList");
+let itemsList;
+let itemsList1 = document.querySelector("#itemsList1");
 let addItemVal = document.getElementById("addItem").value;
 let pages = document.getElementById("pages");
 let unfinished = document.getElementById("undoneNum");
@@ -11,10 +12,11 @@ total.innerHTML = totalNum;
 let checkedElement = document.getElementById("checkedNum");
 let checkedNum = 0;
 checkedElement.innerHTML = checkedNum;
+let listWrapper = document.getElementById("list-wrapper");
 /// / / / // / // / // / // / // / // / // / // / // / // / // / // / ///
 
-let itemCounter = [];
-let pageCounter = 1;
+const itemCounter = [];
+var pageCounter = 1;
 
 // add New Item
 function addNewItem() {
@@ -25,18 +27,25 @@ function addNewItem() {
   total.innerHTML = totalNum;
   //---------------------------------------------------------fix required
   if (itemCounter.length >= 8 && itemCounter.length % 8 === 0) {
+    // here should be if(){
     pageCounter++;
     let newPage = document.createElement("a");
     newPage.id = "page" + `${pageCounter}`;
     newPage.innerHTML = `${pageCounter}`;
     pages.append(newPage);
+    // }
+    let newList = document.createElement("ol");
+    newList.id = "itemsList" + `${pageCounter}`;
+    if (!listWrapper.children["itemsList" + `${pageCounter}`]) {
+      listWrapper.append(newList);
+    }
   }
   //------------------------------------
   let value = document.getElementById("addItem").value;
   let newItem = document.createElement(`li`);
   newItem.innerHTML = `${value}`;
 
-  itemsList.append(newItem);
+  document.getElementById("itemsList" + `${pageCounter}`).append(newItem);
   itemCounter.push(newItem.innerHTML);
 
   //closebtn
@@ -91,24 +100,35 @@ function addNewItem() {
 let checkAll = document.getElementById("checkAll");
 checkAll.checked = false;
 checkAll.addEventListener("change", () => {
-  let length = itemsList.children.length;
-  if (checkAll.checked) {
-    for (let i = 0; i < length; i++) {
-      if (itemsList.children[i].children[0].checked === false) {
-        itemsList.children[i].children[0].checked = true;
-        unfinishedNum--;
+  // 1,2,3... instead of pageCounter and last value == pageCounter
+  for (let i1 = 1; i1 <= pageCounter; i1++) {
+    let length = document.getElementById("itemsList" + `${i1}`).children.length;
+
+    if (checkAll.checked) {
+      // for each list
+      let lengthWrapper = listWrapper.children.length;
+      for (let i2 = 0; i2 < lengthWrapper; i2++) {
+        // for each item
+        for (let i3 = 0; i3 < length; i3++) {
+          let itemsListX = document.getElementById("itemsList" + `${i1}`);
+          if (itemsListX.children[i3].children[0].checked === false) {
+            itemsListX.children[i3].children[0].checked = true;
+            unfinishedNum--;
+            unfinished.innerHTML = unfinishedNum;
+            checkedNum++;
+            checkedElement.innerHTML = checkedNum;
+          }
+        }
+      }
+    } else {
+      for (let i2 = 0; i2 < length; i2++) {
+        let itemsListX = document.getElementById("itemsList" + `${i1}`);
+        itemsListX.children[i2].children[0].checked = false;
+        unfinishedNum++;
         unfinished.innerHTML = unfinishedNum;
-        checkedNum++;
+        checkedNum--;
         checkedElement.innerHTML = checkedNum;
       }
-    }
-  } else {
-    for (let i = 0; i < length; i++) {
-      itemsList.children[i].children[0].checked = false;
-      unfinishedNum++;
-      unfinished.innerHTML = unfinishedNum;
-      checkedNum--;
-      checkedElement.innerHTML = checkedNum;
     }
   }
 });
@@ -116,46 +136,48 @@ checkAll.addEventListener("change", () => {
 //-----------------------------------------------------------fix required
 let delChecked = document.getElementById("delChecked");
 delChecked.addEventListener("click", () => {
-  let length = itemsList.children.length;
-  for (let i = length - 1; i >= 0; i--) {
-    if (itemsList.children[i].children[0].checked) {
-      itemsList.children[i].remove();
-      totalNum--;
-      total.innerHTML = totalNum;
-      checkedNum--;
-      checkedElement.innerHTML = checkedNum;
-      // page counter decreasing
+  for (let i1 = 1; i1 <= pageCounter; i1++) {
+    let length = document.getElementById("itemsList" + `${i1}`).children.length;
 
-      if (itemCounter.length >= 9 && itemCounter.length % 9 === 0) {
-        let neededCounter = document.getElementById(`page${pageCounter}`);
-        neededCounter.remove();
-        pageCounter--;
+    for (let i = length - 1; i >= 0; i--) {
+      let itemsListX = document.getElementById("itemsList" + `${i1}`);
+      if (itemsListX.children[i].children[0].checked) {
+        itemsListX.children[i].remove();
+        totalNum--;
+        total.innerHTML = totalNum;
+        checkedNum--;
+        checkedElement.innerHTML = checkedNum;
+        // page counter decreasing
+
+        if (itemCounter.length >= 9 && itemCounter.length % 9 === 0) {
+          let neededCounter = document.getElementById(`page${pageCounter}`);
+          neededCounter.remove(); // doesn't work
+          pageCounter--;
+        }
+        // itemCounter.shift(`${thisArrItem + 1}`);
       }
-      itemCounter.shift(`${thisArrItem + 1}`);
     }
   }
 });
 //----------------------------------------------------------------------
+
+// needed:
+
+// delChecked page counter lag on 5 pages
+
+// switching pages;
+
+// del checked bug with more than 1 pages
+
+// deleting is mixing up pages and items
+
 /*
-/ // needed:
-
-
-/ // delChecked page counter lag on 5 pages
-
-
-
-/ // switching pages;
-:
-currentPage = 0;
-arr0 = [];
-add items in arr{$currentPage} when item in list added,
-if (length % 8 === 0) currentPage++;
-arr{currentPage} = [];
-
 on delete
 :
 arr{currentPage}.pop();
 if(length % 8 === 0) currentPage--;
-arr{currentPage}.remove();
+itemCounter.remove();
 
 */
+
+// a plan is to rewrite the whole with for loops in the basis
